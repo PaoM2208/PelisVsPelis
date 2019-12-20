@@ -101,11 +101,17 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS compentencia;
 CREATE TABLE compentencia(
 id int NOT NULL auto_increment primary key, 
-nombre varchar(200) NOT NULL);
+nombre varchar(200) NOT NULL),
+`genero_id` int(11) NULL,
+`director_id` int(11) NULL,
+`actor_id` int(11) NULL,
+PRIMARY KEY (`id`)
+);
+
 INSERT INTO `competencia` 
-VALUES (1,'¿Cuál es la mejor película?'),
-(2,'¿Qué drama te hizo llorar más?'),
-(3,'¿Cuál es la peli más bizarra?');
+VALUES (1,'¿Cuál es la mejor película?', null, 3250, null),
+(2,'¿Qué drama te hizo llorar más?', 8, null, null),
+(3,'¿Cuál es la peli más bizarra?', nulll null, 199);
 
 DROP TABLE IF EXISTS `competencia_voto`;
 CREATE TABLE `competencia_voto` (
