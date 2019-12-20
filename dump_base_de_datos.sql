@@ -123,7 +123,7 @@ PRIMARY KEY (`id`)
 );
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS controller_vote $$
+DROP PROCEDURE IF EXISTS controller_voto $$
 CREATE PROCEDURE controller_vote(IN competencia_id int(11), IN pelicula_id int(11))
 BEGIN
   IF (EXISTS (SELECT id FROM pelicula WHERE id = pelicula_id)) THEN
