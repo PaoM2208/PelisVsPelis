@@ -21,7 +21,7 @@ app.get('/competencias/:id/resultados', controllerCompetencias.resultados);
 app.get('/genres', controllerCompetencias.generos);
 app.get('/directores', controllerCompetencias.directores);
 app.get('/actores', controllerCompetencias.actores);
-app.post('/competencias', controllerCrud.crearCompeticion);
+app.post('/competencias', controllerCrud.crearCompetencia);
 app.put('/competencias/:id', controllerCrud.actualizarCompetencia);
 app.get('/competencias/:id', controllerCrud.consultarCompetencia);
 app.delete('/competencias/:id/votos', controllerCrud.reiniciarCompeticion);

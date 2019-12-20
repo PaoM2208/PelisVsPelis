@@ -85,7 +85,7 @@ function listarOpciones(req, res) {
 }
 
 function listarVotos(req, res) {
-	var sql = ' CALL update_or_insert_vote(' + req.params.id + ', ' + req.body.movieID + ') ';
+	var sql = ' CALL controller_voto(' + req.params.id + ', ' + req.body.movieID + ') ';
 	conexion.query(sql, (err, respuesta) => {
 		if (err) return res.status(500).send('Error ' + err.message + ' en consulta.');
 

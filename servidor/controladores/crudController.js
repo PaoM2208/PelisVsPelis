@@ -2,7 +2,7 @@ var conexion = require('../lib/conexionbd');
 
 function conDatos(attr) {
 	return attr !== undefined && attr !== null
-        && attr !== 'null' && buscarReal(attr);
+		&& attr !== 'null' && buscarReal(attr);
 }
 
 function buscarReal(attr) {
@@ -10,7 +10,7 @@ function buscarReal(attr) {
 	return attr.trim().length > 0;
 }
 
-function crearCompeticion(req, res) {
+function crearCompetencia(req, res) {
 	if (req.body.nombre === '' || !conDatos(req.body.nombre)) {
 		return res.status(422).send('Ingrese un nombre de competencia valido.');
 	}
@@ -43,8 +43,8 @@ function crearCompeticion(req, res) {
 	};
 
 	let sql = ' SELECT * FROM pelicula ';
-    let siqzeQuery = 0;
-    
+	let siqzeQuery = 0;
+
 	Object.keys(datosCrear).forEach(dato => {
 		if (datosCrear[key].attr != 0) {
 			siqzeQuery++;
@@ -52,8 +52,8 @@ function crearCompeticion(req, res) {
 		}
 	});
 
-    sql += ' WHERE '; 
-    
+	sql += ' WHERE ';
+
 	Object.keys(datosCrear).forEach(dato => {
 		if (datosCrear[dato].attr != 0) {
 			sql += datosCrear[dato].filtro;
@@ -62,22 +62,22 @@ function crearCompeticion(req, res) {
 		}
 	});
 
-    sql += ';';
-    
+	sql += ';';
+
 	conexion.query(query, (err, respuesta) => {
 		if (err) {
-			return res.status(500).send('The query encountered an issue: ' + err.message);
+			return res.status(500).send('Error: ' + err.message + ' en consulta.');
 		}
 
 		if (respuesta.length < 2) {
 			return res.status(422).send('No hay peliculas suficientes.');
 		}
 
-		sql = ` INSERT INTO competencias (nombre, genero_id, director_id, actor_id)
+		sql = ` INSERT INTO competencia (nombre, genero_id, director_id, actor_id)
         SELECT * FROM (SELECT '${req.body.nombre}' AS nombre, ${id(req.body.genero)} AS genero, ${id(req.body.director)} AS director, ${paramID(req.body.actor)} AS col4) AS \`values\`
-        WHERE NOT EXISTS (SELECT * FROM competencias WHERE nombre like '${req.body.nombre}')
-        AND NOT EXISTS (SELECT * FROM competencias WHERE genero_id ${contenido(req.body.genero)} AND director_id ${contenido(req.body.director)} AND actor_id ${conexion(req.body.actor)}) LIMIT 1; `;
-	
+        WHERE NOT EXISTS (SELECT * FROM competencia WHERE nombre like '${req.body.nombre}')
+        AND NOT EXISTS (SELECT * FROM competencia WHERE genero_id ${contenido(req.body.genero)} AND director_id ${contenido(req.body.director)} AND actor_id ${conexion(req.body.actor)}) LIMIT 1; `;
+
 		conexion.query(sql, (err, respuesta) => {
 			if (err) {
 				return res.status(500).send('Error : ' + err.message + ' en consulta.');
@@ -90,7 +90,7 @@ function crearCompeticion(req, res) {
 
 function actualizarCompetencia(req, res) {
 	if (!/\S/.test(req.body.nombre)) return;
-	var sql = ' UPDATE competencias SET nombre = "' + req.body.nombre + '" WHERE id = ${req.params.id}; ';
+	var sql = ' UPDATE competencia SET nombre = "' + req.body.nombre + '" WHERE id = ${req.params.id}; ';
 	conexion.query(sql, (err, respuesta) => {
 		if (err) {
 			return res.status(500).send('Error: ' + err.message + ' en consulta.');
@@ -105,7 +105,7 @@ function actualizarCompetencia(req, res) {
 }
 
 function consultarCompetencia(req, res) {
-	var sql = ' SELECT * FROM competencias WHERE id = ' + req.params.id;
+	var sql = ' SELECT * FROM competencia WHERE id = ' + req.params.id;
 	var encontrado = false;
 
 	conexion.query(sql, (err, respuesta) => {
@@ -153,13 +153,13 @@ function consultarCompetencia(req, res) {
 		});
 
 		encontrado = false;
-		sql += ' FROM competencias';
+		sql += ' FROM competencia';
 
 		campos.forEach(dato => {
-			sql += ' JOIN ' + dato.tabla + ' ON competencias.' + dato.join + ' = ' + dato.table + '.id';
+			sql += ' JOIN ' + dato.tabla + ' ON competencia.' + dato.join + ' = ' + dato.table + '.id';
 		});
 
-		sql += ' WHERE competencias.id = ' + req.params.id + ';';
+		sql += ' WHERE competencia.id = ' + req.params.id + ';';
 		conexion.query(sql, (err, respuesta_) => {
 			if (err) {
 				return res.status(500).send('Error: ' + err.message + ' en consulta.');
@@ -180,7 +180,7 @@ function consultarCompetencia(req, res) {
 }
 
 function reiniciarCompeticion(req, res) {
-	var sql = ' DELETE FROM competencias_votos WHERE competencia_id = ' + req.params.id;
+	var sql = ' DELETE FROM competencia_voto WHERE competencia_id = ' + req.params.id;
 	conexion.query(sql, (err, respuesta) => {
 		if (err) {
 			return res.status(500).send('Error: ' + err.message + ' en consulta.');
@@ -195,7 +195,7 @@ function reiniciarCompeticion(req, res) {
 }
 
 function eliminarCompetencia(req, res) {
-	var sql = ' DELETE competencia, competencias_votos FROM competencias LEFT JOIN competencias_votos ON competencia.id = competencias_votos.competencia_id WHERE competencia.id = ' + req.params.id;
+	var sql = ' DELETE competencia, competencia_voto FROM competencia LEFT JOIN competencia_voto ON competencia.id = competencias_voto.competencia_id WHERE competencia.id = ' + req.params.id;
 	conexion.query(sql, (err, respuesta) => {
 		if (err) {
 			return res.status(500).send('Error: ' + err.message + ' en consulta.');
@@ -210,7 +210,7 @@ function eliminarCompetencia(req, res) {
 }
 
 module.exports = {
-	crearCompeticion,
+	crearCompetencia,
 	actualizarCompetencia,
 	consultarCompetencia,
 	reiniciarCompeticion,
