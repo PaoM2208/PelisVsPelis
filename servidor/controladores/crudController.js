@@ -202,7 +202,7 @@ function eliminarCompetencia(req, res) {
 		}
 
 		if (respuesta.affectedRows == 0) {
-			return res.status(422).send('NO se pudo eliminar!');
+			return res.status(422).send('No se pudo eliminar!');
 		}
 
 		return res.status(200).send('La competencia con identificador ' + req.params.id + ' se pudo eliminar con sus votos.');

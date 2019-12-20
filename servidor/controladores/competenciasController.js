@@ -116,13 +116,13 @@ function generos(req, res) {
 	});
 }
 
-function directorios(req, res) {
+function directores(req, res) {
 	var sql = ' SELECT * FROM director; ';
 
 	conexion.query(sql, (err, respuesta) => {
 		if (err) return res.status(500).send('Error ' + err.message + ' en consulta.');
 
-		if (respuesta.length === 0) return res.status(404).send('No hay coincidencia para \'directors\'.');
+		if (respuesta.length === 0) return res.status(404).send('No hay coincidencia para \'directores\'.');
 
 		return res.json(respuesta);
 	});
@@ -135,7 +135,7 @@ function actores(req, res) {
 		if (err) return res.status(500).send('Error ' + err.message + ' en consulta.');
 
 		if (respuesta.length === 0) {
-			return res.status(404).send('No hay coincidencia para \'actors\'.');
+			return res.status(404).send('No hay coincidencia para \'actores\'.');
 		}
 
 		return res.json(respuesta);
@@ -148,6 +148,6 @@ module.exports = {
     listarVotos,
     resultados,
     generos,
-    directorios,
+    directores,
     actores
 };
